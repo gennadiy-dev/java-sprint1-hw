@@ -5,12 +5,13 @@ public class YearlyReport {
     ArrayList<Month> year;
     HashMap<String, double[]> statistic;
     String date;
+    DateFormatter dateFormatter;
 
     YearlyReport (ArrayList<Month> year, String date) {
         this.year = year;
         this.date = date;
+        dateFormatter = new DateFormatter();
     }
-
 
     public void printInfo() {
         double avrIncome = 0.d;
@@ -32,7 +33,7 @@ public class YearlyReport {
             avrIncome += profit.amount;
             avrExpense += expense.amount;
 
-            System.out.println(getMonthName(year.get(i).number) + ": " + (int) (profit.amount - expense.amount));
+            System.out.println(dateFormatter.getMonthName(year.get(i).number) + ": " + (int) (profit.amount - expense.amount));
 
         }
         System.out.println("Средний доход за все месяцы: " + getRoundedAvr(avrIncome, year.size()/ 2));
@@ -44,7 +45,6 @@ public class YearlyReport {
         statistic = new HashMap<>();
 
         for (int i = 0; i < year.size(); i += 2) {
-            String monthName = getMonthName(year.get(i).number);
             Month profit;
             Month expense;
 
@@ -55,40 +55,9 @@ public class YearlyReport {
                 expense = year.get(i + 1);
                 profit = year.get(i);
             }
-
-            statistic.put(monthName, new double[]{expense.amount, profit.amount});
+            statistic.put(dateFormatter.getMonthName(year.get(i).number), new double[]{expense.amount, profit.amount});
         }
-
         return statistic;
-    }
-    private String getMonthName(String number) {
-        String name = "";
-        if ("01".equals(number)) {
-            name =  "Январь";
-        } else if ("02".equals(number)) {
-            name = "Февраль";
-        } else if ("03".equals(number)) {
-            name = "Март";
-        } else if ("04".equals(number)) {
-            name = "Март";
-        } else if ("05".equals(number)) {
-            name = "Март";
-        } else if ("06".equals(number)) {
-            name = "Март";
-        } else if ("07".equals(number)) {
-            name = "Март";
-        } else if ("08".equals(number)) {
-            name = "Март";
-        } else if ("09".equals(number)) {
-            name = "Март";
-        } else if ("10".equals(number)) {
-            name = "Март";
-        } else if ("11".equals(number)) {
-            name = "Март";
-        } else if ("12".equals(number)) {
-            name = "Март";
-        }
-        return name;
     }
 
     private String getRoundedAvr(double value, int entry) {

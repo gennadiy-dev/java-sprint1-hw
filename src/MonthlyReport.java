@@ -4,9 +4,11 @@ import java.util.HashMap;
 public class MonthlyReport {
     HashMap<String, ArrayList<Category>> months;
     HashMap<String, double[]> statistic;
+    DateFormatter dateFormatter;
 
     MonthlyReport (HashMap<String, ArrayList<Category>> months) {
         this.months = months;
+        dateFormatter = new DateFormatter();
     }
 
     public void printInfo() {
@@ -17,7 +19,7 @@ public class MonthlyReport {
 
             int maxExpense = 0;
             String maxExpenseName = "";
-            System.out.println("Название месяца: " + getMonthName(Integer.parseInt(monthNum)));
+            System.out.println("Название месяца: " + dateFormatter.getMonthName(monthNum));
 
             for(Category category : months.get(monthNum)) {
                 int amount = (int) (category.quantity * category.sumOfOne);
@@ -42,9 +44,10 @@ public class MonthlyReport {
     public HashMap<String, double[]> getStatistic() {
         statistic = new HashMap<>();
         for (String monthNum : months.keySet()) {
-            String monthName = getMonthName(Integer.parseInt(monthNum));
+            String monthName = dateFormatter.getMonthName(monthNum);
             double expenseSum = 0.0;
             double profitSum = 0.0;
+
             for (Category category : months.get(monthNum)) {
                 if (category.isExpense) {
                     expenseSum += category.sumOfOne * category.quantity;
@@ -54,36 +57,6 @@ public class MonthlyReport {
             }
             statistic.put(monthName, new double[]{expenseSum, profitSum});
         }
-
         return statistic;
-    }
-
-    private String getMonthName (int monthNum) {
-        if (monthNum == 1) {
-            return "Январь";
-        } else if (monthNum == 2) {
-            return "Февраль";
-        } else if (monthNum == 3) {
-            return "Март";
-        } else if (monthNum == 4) {
-            return "Апрель";
-        } else if (monthNum == 5) {
-            return "Май";
-        } else if (monthNum == 6) {
-            return "Июнь";
-        } else if (monthNum == 7) {
-            return "Июль";
-        } else if (monthNum == 8) {
-            return "Август";
-        } else if (monthNum == 9) {
-            return "Сентябрь";
-        } else if (monthNum == 10) {
-            return "Октябрь";
-        } else if (monthNum == 11) {
-            return "Ноябрь";
-        } else if (monthNum == 12) {
-            return "Декабрь";
-        }
-        return "";
     }
 }

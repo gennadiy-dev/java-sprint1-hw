@@ -40,22 +40,9 @@ public class Main {
                 yearlyReport = new YearlyReport(year, date);
             } else if (command == 3) {
                 if (monthlyReport != null && yearlyReport != null) {
-                    boolean isOk = true;
                     monthlyStatistic = monthlyReport.getStatistic();
                     yearStatistic = yearlyReport.getStatistic();
-
-                    for (String month : yearStatistic.keySet()) {
-                        double[] valuesYear = yearStatistic.get(month);
-                        double[] valuesMonth = monthlyStatistic.get(month);
-
-                        if (valuesYear[0] != valuesMonth[0] || valuesYear[1] != valuesMonth[1]) {
-                            isOk = false;
-                            System.out.println(month + ": ошибка");
-                        }
-                    }
-                    if (isOk) {
-                        System.out.println("Операция успешно завершена");
-                    }
+                    compareReports(monthlyStatistic, yearStatistic);
                 } else {
                     System.out.println("Ошибка, не считаны необходимые отчеты");
                 }
@@ -79,6 +66,23 @@ public class Main {
             }
         }
 
+    }
+
+    public static void compareReports (HashMap<String, double[]> monthlyStatistic,
+                                       HashMap<String, double[]> yearStatistic) {
+        boolean isOk = true;
+        for (String month : yearStatistic.keySet()) {
+            double[] valuesYear = yearStatistic.get(month);
+            double[] valuesMonth = monthlyStatistic.get(month);
+
+            if (valuesYear[0] != valuesMonth[0] || valuesYear[1] != valuesMonth[1]) {
+                isOk = false;
+                System.out.println(month + ": ошибка");
+            }
+        }
+        if (isOk) {
+            System.out.println("Операция успешно завершена");
+        }
     }
 
     public static void printMenu() {
